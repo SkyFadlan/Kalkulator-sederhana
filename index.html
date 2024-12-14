@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Penjualan Ayam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding-top: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        label {
+            flex: 1;
+            text-align: left;
+        }
+
+        input {
+            flex: 1;
+            padding: 8px;
+            margin-left: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hitung Pembayaran</h1>
+
+        <!-- Tabel Harga Satuan -->
+        <div class="tabel">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Paha Ayam</td><td>Rp. 12.000</td></tr>
+                    <tr><td>Dada Ayam</td><td>Rp. 12.000</td></tr>
+                    <tr><td>Sayap Ayam</td><td>Rp. 10.000</td></tr>
+                    <tr><td>Nasi</td><td>Rp. 5.000</td></tr>
+                    <tr><td>Kentang Goreng</td><td>Rp. 5.000</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Form Input Jumlah Pembelian -->
+        <div class="form-group">
+            <label for="pahaAyam">Paha Ayam:</label>
+            <input type="number" id="pahaAyam" value="0">
+        </div>
+        <div class="form-group">
+            <label for="dadaAyam">Dada Ayam:</label>
+            <input type="number" id="dadaAyam" value="0">
+        </div>
+        <div class="form-group">
+            <label for="sayapAyam">Sayap Ayam:</label>
+            <input type="number" id="sayapAyam" value="0">
+        </div>
+        <div class="form-group">
+            <label for="nasi">Nasi:</label>
+            <input type="number" id="nasi" value="0">
+        </div>
+        <div class="form-group">
+            <label for="kentang">Kentang Goreng:</label>
+            <input type="number" id="kentang" value="0">
+        </div>
+
+        <!-- Tombol Hitung -->
+        <button onclick="hitungPembayaran()">Hitung</button>
+
+        <!-- Tabel Rincian Pembelian -->
+        <h2>Rincian Pembelian:</h2>
+        <table id="rincianPembelian">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Paha Ayam</td><td>0</td><td>Rp. 0</td></tr>
+                <tr><td>Dada Ayam</td><td>0</td><td>Rp. 0</td></tr>
+                <tr><td>Sayap Ayam</td><td>0</td><td>Rp. 0</td></tr>
+                <tr><td>Nasi</td><td>0</td><td>Rp. 0</td></tr>
+                <tr><td>Kentang Goreng</td><td>0</td><td>Rp. 0</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Tabel Total dan Diskon -->
+        <h2>Total Pembayaran: Rp. <span id="totalPembayaran">0</span></h2>
+        <h2>Diskon: Rp. <span id="diskon">0</span></h2>
+        <h2>Total Setelah Diskon: Rp. <span id="totalSetelahDiskon">0</span></h2>
+        
+        <!-- Tabel Bonus -->
+        <h2>Bonus:</h2>
+        <p id="bonus">Tidak ada bonus</p>
+    </div>
+
+    <script>
+        function hitungPembayaran() {
+            const hargaPahaAyam = 12000;
+            const hargaDadaAyam = 12000;
+            const hargaSayapAyam = 10000;
+            const hargaNasi = 5000;
+            const hargaKentangGoreng = 5000;
+
+            let jumlahPahaAyam = parseInt(document.getElementById("pahaAyam").value);
+            let jumlahDadaAyam = parseInt(document.getElementById("dadaAyam").value);
+            let jumlahSayapAyam = parseInt(document.getElementById("sayapAyam").value);
+            let jumlahNasi = parseInt(document.getElementById("nasi").value);
+            let jumlahKentangGoreng = parseInt(document.getElementById("kentang").value);
+
+            // Menghitung total harga awal untuk setiap produk
+            const totalPahaAyam = jumlahPahaAyam * hargaPahaAyam;
+            const totalDadaAyam = jumlahDadaAyam * hargaDadaAyam;
+            const totalSayapAyam = jumlahSayapAyam * hargaSayapAyam;
+            const totalNasi = jumlahNasi * hargaNasi;
+            const totalKentangGoreng = jumlahKentangGoreng * hargaKentangGoreng;
+
+            // Hitung Total Pembayaran sebelum diskon
+            let totalPembayaran = totalPahaAyam + totalDadaAyam + totalSayapAyam + totalNasi + totalKentangGoreng;
+
+            // Terapkan Diskon 10% jika total pembayaran >= 100000
+            let diskon = 0;
+            if (totalPembayaran >= 100000) {
+                diskon = totalPembayaran * 0.1;
+            }
+            let totalSetelahDiskon = totalPembayaran - diskon;
+
+            // Tambahkan diskon tambahan 5% jika total setelah diskon pertama > 200000
+            if (totalSetelahDiskon > 200000) {
+                totalSetelahDiskon *= 0.95; // Diskon tambahan 5%
+            }
+
+            // Tentukan bonus
+            let bonus = '';
+            if (jumlahPahaAyam > 5 && jumlahDadaAyam === 0) {
+                bonus = 'Bonus 1 Sayap Ayam';
+            } else if (jumlahPahaAyam > 5 && jumlahDadaAyam > 5) {
+                bonus = 'Bonus 2 Sayap Ayam';
+            } 
+            if (jumlahPahaAyam > 5 && jumlahDadaAyam > 5 && jumlahNasi > 5) {
+                bonus += ', Bonus 1 Pop Ice';
+            }
+
+            // Tampilkan Total Pembayaran, Diskon, dan Bonus
+            document.getElementById("totalPembayaran").textContent = totalPembayaran.toLocaleString("id-ID");
+            document.getElementById("diskon").textContent = diskon.toLocaleString("id-ID");
+            document.getElementById("totalSetelahDiskon").textContent = totalSetelahDiskon.toLocaleString("id-ID");
+            document.getElementById("bonus").textContent = bonus || 'Tidak ada bonus';
+
+            // Update Rincian Pembelian
+            const rincianPembelian = `
+                <tr><td>Paha Ayam</td><td>${jumlahPahaAyam}</td><td>Rp. ${totalPahaAyam.toLocaleString("id-ID")}</td></tr>
+                <tr><td>Dada Ayam</td><td>${jumlahDadaAyam}</td><td>Rp. ${totalDadaAyam.toLocaleString("id-ID")}</td></tr>
+                <tr><td>Sayap Ayam</td><td>${jumlahSayapAyam}</td><td>Rp. ${totalSayapAyam.toLocaleString("id-ID")}</td></tr>
+                <tr><td>Nasi</td><td>${jumlahNasi}</td><td>Rp. ${totalNasi.toLocaleString("id-ID")}</td></tr>
+                <tr><td>Kentang Goreng</td><td>${jumlahKentangGoreng}</td><td>Rp. ${totalKentangGoreng.toLocaleString("id-ID")}</td></tr>
+            `;
+            document.querySelector("#rincianPembelian tbody").innerHTML = rincianPembelian;
+        }
+    </script>
+</body>
+</html>
